@@ -1,5 +1,4 @@
 package interfaces;
 
-public class Loadable {
-    
+public interface Loadable {
 }

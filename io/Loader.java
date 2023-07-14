@@ -1,23 +1,20 @@
 package io;
 
-import java.io.ObjectInputStream;
 import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.IOException;
 import interfaces.Loadable;
-import genTree.GenTree;
-import genTree.Human;
+import interfaces.Reading;
 
-public class Loader {
-    public Loadable loadData(String path) throws ClassNotFoundException, IOException {
+public class Loader implements Reading {
+    @Override
+    public Loadable loadObj(String path) throws ClassNotFoundException, IOException {
         ObjectInputStream objInStream = new ObjectInputStream(new FileInputStream(path));
-        Object restoredObj = (Object)objInStream.readObject();
+        Object restoredObj = objInStream.readObject();
         objInStream.close();
-        if (restoredObj instanceof GenTree) {
-            return (GenTree)restoredObj;
+        if (restoredObj instanceof Loadable) {
+            return (Loadable)restoredObj;
         }
-        if (restoredObj instanceof Human) {
-            return (Human)restoredObj;
-        }
-        throw new ClassNotFoundException("file not support");
+        throw new ClassNotFoundException("file not Loadable");
     }
 }
